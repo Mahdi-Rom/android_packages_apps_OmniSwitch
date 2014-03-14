@@ -43,6 +43,17 @@
             android:title="@string/opacity_title" />
         <CheckBoxPreference
             android:defaultValue="false"
+            android:key="dim_behind"
+            android:summary="@string/dim_behind_summary"
+            android:title="@string/dim_behind_title" />
+        <ListPreference
+            android:entries="@array/gravity_entries"
+            android:entryValues="@array/gravity_values"
+            android:key="gravity"
+            android:summary="@string/gravity_center"
+            android:title="@string/gravity_title" />
+        <CheckBoxPreference
+            android:defaultValue="false"
             android:key="show_rambar"
             android:summary="@string/show_rambar_summary"
             android:title="@string/show_rambar_title" />
@@ -66,17 +77,14 @@
             android:title="@string/drag_handle_enable_title" />
         <Preference
             android:key="adjust_handle"
-            android:summary="@string/adjust_handle_summary"
             android:title="@string/adjust_handle_title" />
         <org.omnirom.omniswitch.ui.DragHandleColorPreference
             android:key="drag_handle_color"
-            android:summary="@string/drag_handle_color_summary"
             android:title="@string/drag_handle_color_title" />
         <org.omnirom.omniswitch.ui.SeekBarPreference
             android:defaultValue="100"
             android:key="drag_handle_opacity"
             android:max="100"
-            android:summary="@string/drag_handle_opacity_summary"
             android:title="@string/drag_handle_opacity_title" />
         <CheckBoxPreference
             android:defaultValue="false"
