@@ -82,6 +82,9 @@ public class MainActivity extends Activity {
         if(DEBUG){
             Log.d(TAG, "onResume");
         }
+        Intent hideRecent = new Intent(
+                SwitchService.RecentsReceiver.ACTION_SHOW_OVERLAY2);
+        sendBroadcast(hideRecent);
         super.onResume();
     }
 
