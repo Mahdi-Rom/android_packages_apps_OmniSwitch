@@ -38,7 +38,6 @@
     <string name="ok">OK</string>
     <string name="cancel">Cancelar</string>
     <string name="drag_handle_color_title">Color</string>
-    <string name="drag_handle_color_summary"></string>
     <string name="drag_handle_color_dialog_title">Color</string>
     <string name="service_background_processes"><xliff:g id="memory">%1$s</xliff:g> libre</string>
     <string name="service_foreground_processes"><xliff:g id="memory">%1$s</xliff:g> usada</string>
@@ -69,11 +68,16 @@
     <string name="buttons_title">Botones</string>
     <string name="buttons_summary">Botones de acción aparecerán en la vista de superposición</string>
     <string name="auto_hide_handle">Ocultar automáticamente</string>
-    <string name="auto_hide_handle_summary">Dos golpes para mostrar la vista de superposición</string>
+    <string name="auto_hide_handle_summary">Desliza 2 veces para mostrar la vista de superposición</string>
     <string name="no_recent_apps_title">No hay aplicaciones recientes</string>
-    <string name="adjust_handle_summary"></string>
     <string name="drag_handle_opacity_title">Opacidad</string>
-    <string name="drag_handle_opacity_summary"></string>
     <string name="drag_handle_enable_title">Activar</string>
     <string name="drag_handle_enable_summary">Deshabilitar sólo si se utiliza otro método de activación</string>
+	<string name="allapps_help">Cajón de Apps</string>
+    <string name="allapps">Cajón de Apps</string>
+    <string name="dim_behind_title">Fondo difuso</string>
+    <string name="dim_behind_summary">Aplicar opacidad a pantalla completa</string>
+    <string name="gravity_title">Gravedad horizontal</string>
+    <string name="gravity_center">Centro</string>
+    <string name="gravity_drag">Arrastrar lado</string>
 </resources>
