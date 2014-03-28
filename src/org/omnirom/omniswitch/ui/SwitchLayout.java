@@ -1040,7 +1040,9 @@ public class SwitchLayout implements OnShowcaseEventListener {
                 popup.getMenu());
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == R.id.recent_remove_item) {
+                if (item.getItemId() == R.id.recent_float_item) {
+                    mRecentsManager.floatingTask(ad);
+                } else if (item.getItemId() == R.id.recent_remove_item) {
                     mRecentsManager.killTask(ad);
                 } else if (item.getItemId() == R.id.recent_inspect_item) {
                     mRecentsManager.startApplicationDetailsActivity(ad.getPackageName());
