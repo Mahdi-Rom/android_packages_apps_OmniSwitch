@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (C) 2013 The OmniROM Project
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 2 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">OmniSwitch</string>
+    <string name="status_bar_recent_remove_item_title">Stop</string>
+    <string name="status_bar_recent_inspect_item_title">Alkalmazás info</string>
+    <string name="recents_settings_title">OmniSwitch</string>
+    <string name="start_on_boot_title">Rendszerindításkor indul</string>
+    <string name="start_on_boot_summary">Indítja és engedélyezi a készülék indulásakor</string>
+    <string name="opacity_title">Átlátszóság</string>
+    <string name="opacity_summary">Háttér átlátszósága a megjelenítő nézetben</string>
+    <string name="animate_title">Animálás</string>
+    <string name="animate_title_summary">Animálja a megjelenítést és az elrejtést</string>
+    <string name="adjust_handle_title">Pozíció és méret</string>
+    <string name="sc_drag_handle_title">Húzó fogantyú</string>
+    <string name="sc_drag_handle_body">\nHúzva vízszintesen vagy hosszan nyomva megnyítja\nMegnyomva a gombot vagy azon kivül bezárja</string>
+    <string name="sc_favorite_title">Kedvenc alkalmazások</string>
+    <string name="sc_favorite_body">\nKedvenc alkalmazás nézet megnyítása.</string>
+    <string name="icon_size_normal">Normál</string>
+    <string name="icon_size_small">Kicsi</string>
+    <string name="icon_size_large">Nagy</string>
+    <string name="icon_size_title">Ikon méret</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Törlés</string>
+    <string name="drag_handle_color_title">Szín</string>
+    <string name="drag_handle_color_dialog_title">Szín</string>
+    <string name="service_background_processes"><xliff:g id="memory">%1$s</xliff:g> szabad</string>
+    <string name="service_foreground_processes"><xliff:g id="memory">%1$s</xliff:g> használt</string>
+    <string name="show_rambar_title">Memória használat mutatása</string>
+    <string name="show_rambar_summary">Kijelzi a szabad és a foglalt memóriát</string>
+    <string name="show_app_labels">Alkalmazás név mutatása</string>
+    <string name="show_app_labels_summary">Alkalmazás nevének kijelzése az ikonnal</string>
+    <string name="category_overlay_title">Megjelenítés</string>
+    <string name="category_drag_handle_title">Húzó fogantyú</string>
+    <string name="category_favorite_title">Kedvencek</string>
+    <string name="favorite_apps_config_title">Kedvencek kezelése</string>
+    <string name="favorite_apps_config_summary">Alkalmazások meghatározása amelyek a kedvenc nézetben látszódjanak</string>
+    <string name="favorite_apps_add_dialog_title">Alkalmazás hozzáadása</string>
+    <string name="favorite_add">Hozzáad\u2026</string>
+    <string name="location_left" translatable="false">&lt;&lt;</string>
+    <string name="location_right" translatable="false">&gt;&gt;</string>
+    <string name="reset">Alapértelmezett</string>
+    <string name="toogle_last_app_help">Utolsó alkalmazásra váltás</string>
+    <string name="kill_all_apps_help">Összes alkalmazás kilövése</string>
+    <string name="kill_other_apps_help">Egyéb alkalmazás kilövése</string>
+    <string name="settings_help">Beállítások</string>
+    <string name="home_help">Kezdőképernyő</string>
+    <string name="toogle_last_app">Utolsó alkalmazásra váltás</string>
+    <string name="kill_all_apps">Összes alkalmazás kilövése</string>
+    <string name="kill_other_apps">Egyéb alkalmazás kilövése</string>
+    <string name="settings">Beállítások</string>
+    <string name="home">Kezdőképernyő</string>
+    <string name="buttons_title">Gombok</string>
+    <string name="buttons_summary">Akció gombok megjelenítése a megjelenítő nézetben</string>
+    <string name="auto_hide_handle">Auto-rejtés</string>
+    <string name="auto_hide_handle_summary">Két húzásra mutatja a megjelenítő nézetet</string>
+    <string name="no_recent_apps_title">Nincs legutóbbi alkalmazás</string>
+    <string name="drag_handle_opacity_title">Átláthatóság</string>
+    <string name="drag_handle_enable_title">Engedélyezés</string>
+    <string name="drag_handle_enable_summary">Csak akkor tíltsd le, ha egyéb megjelenítő módszert használsz</string>
+    <string name="allapps_help">Alkalmazás fiók</string>
+    <string name="allapps">Alkalmazás fiók</string>
+    <string name="dim_behind_title">Fakó háttér</string>
+    <string name="dim_behind_summary">Átláthatóság engedélyezése a teljes képernyőn</string>
+    <string name="gravity_title">Vízszintes súlypont</string>
+    <string name="gravity_center">Középen</string>
+    <string name="gravity_drag">Húzó foganytú oldal</string>
+    <string name="dialog_pick_iconpack_title">Ikon csomag használata</string>
+    <string name="default_iconpack_title">Alapértelmezett ikonok</string>
+    <string name="icon_packs_title">Ikon csomagok</string>
+    <string name="no_iconpacks_summary">Nincs telepített ikon csomag</string>
+    <string name="icon_pack_title">ikon csomag</string>
+    <string name="icon_pack_summary">Ikon csomag használata az alkalmazás ikonokhoz</string>
+</resources>
