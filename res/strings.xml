@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (C) 2013 The OmniROM Project
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 2 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">OmniSwitch</string>
+    <string name="status_bar_recent_remove_item_title">Stop</string>
+    <string name="status_bar_recent_inspect_item_title">Info app</string>
+    <string name="recents_settings_title">OmniSwitch</string>
+    <string name="start_on_boot_title">Partenza all\'accensione</string>
+    <string name="start_on_boot_summary">Attivazione all\'accensione del dispositivo</string>
+    <string name="opacity_title">Trasparenza</string>
+    <string name="opacity_summary">Valore più alto=pannello più scuro</string>
+    <string name="animate_title">Animazione</string>
+    <string name="animate_title_summary">Animazione in uscita/entrata del pannello</string>
+    <string name="adjust_handle_title">Posizione e grandezza</string>
+    <string name="sc_drag_handle_title">Trascina</string>
+    <string name="sc_drag_handle_body">\nApri con uno swipe orizzontale o tenendo premuto\nPremi un pulsante o fuori dal pannello per chiudere</string>
+    <string name="sc_favorite_title">Applicazioni preferite</string>
+    <string name="sc_favorite_body">\nApri schermata app preferite.</string>
+    <string name="icon_size_normal">Normale</string>
+    <string name="icon_size_small">Piccolo</string>
+    <string name="icon_size_large">Grande</string>
+    <string name="icon_size_title">Grandezza interruttore</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Annulla</string>
+    <string name="drag_handle_color_title">Colore</string>
+    <string name="drag_handle_color_dialog_title">Colore</string>
+    <string name="service_background_processes"><xliff:g id="memory">%1$s</xliff:g> liberi</string>
+    <string name="service_foreground_processes"><xliff:g id="memory">%1$s</xliff:g> usati</string>
+    <string name="show_rambar_title">Mostra uso RAM</string>
+    <string name="show_rambar_summary">Mostra la quantità di memoria libera ed usata</string>
+    <string name="show_app_labels">Mostra nome app</string>
+    <string name="show_app_labels_summary">Verrà mostrato anche il nome dell\'app</string>
+    <string name="category_overlay_title">Pannello</string>
+    <string name="category_drag_handle_title">Trascina</string>
+    <string name="category_favorite_title">Preferiti</string>
+    <string name="favorite_apps_config_title">Imposta preferiti</string>
+    <string name="favorite_apps_config_summary">Impposta app da mostrare nella schermata preferiti</string>
+    <string name="favorite_apps_add_dialog_title">Aggiungi app</string>
+    <string name="favorite_add">Aggiungi\u2026</string>
+    <string name="location_left" translatable="false">&lt;&lt;</string>
+    <string name="location_right" translatable="false">&gt;&gt;</string>
+    <string name="reset">Predefinito</string>
+    <string name="toogle_last_app_help">Passa all\'ultima app</string>
+    <string name="kill_all_apps_help">Chiudi tutte le app</string>
+    <string name="kill_other_apps_help">Chiudi altre app</string>
+    <string name="settings_help">Impostazioni</string>
+    <string name="home_help">Home</string>
+    <string name="toogle_last_app">Passa all\'ultima app</string>
+    <string name="kill_all_apps">Chiudi tutte le app</string>
+    <string name="kill_other_apps">Chiudi altre app</string>
+    <string name="settings">Impostazioni</string>
+    <string name="home">Home</string>
+    <string name="buttons_title">Pulsanti</string>
+    <string name="buttons_summary">I pulsanti saranno mostrati nel pannello</string>
+    <string name="auto_hide_handle">Nascondi automaticamente</string>
+    <string name="auto_hide_handle_summary">Due swipe per mostrare il pannello</string>
+    <string name="no_recent_apps_title">Nessuna app recente</string>
+    <string name="drag_handle_opacity_title">Trasparenza</string>
+    <string name="drag_handle_enable_title">Attiva</string>
+    <string name="drag_handle_enable_summary">Disattiva solo se si usa un altro metodo di attivazione</string>
+    <string name="allapps_help">App drawer</string>
+    <string name="allapps">App drawer</string>
+    <string name="dim_behind_title">Sfondo come il pannello</string>
+    <string name="dim_behind_summary">Applica trasparenza a tutto lo schermo</string>
+    <string name="gravity_title">Modalità orizzontale</string>
+    <string name="gravity_center">Centro</string>
+    <string name="gravity_drag">Trascina</string>
+    <string name="dialog_pick_iconpack_title">Scegli icon pack</string>
+    <string name="default_iconpack_title">Icone predefinite</string>
+    <string name="icon_packs_title">Icon pack</string>
+    <string name="no_iconpacks_summary">Nessun icon pack installato</string>
+    <string name="icon_pack_title">Icon pack</string>
+    <string name="icon_pack_summary">Usa icon pack per le icone delle app</string>
+</resources>
