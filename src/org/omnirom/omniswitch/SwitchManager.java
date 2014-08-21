@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.omnirom.omniswitch.ui.SwitchGestureView;
 import org.omnirom.omniswitch.ui.SwitchLayout;
 
 import android.app.ActivityManager;
@@ -29,25 +30,23 @@ import android.app.TaskStackBuilder;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.content.ComponentName;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.content.pm.ActivityInfo;
 import android.net.Uri;
-import android.os.UserHandle;
-import android.util.Log;
-import android.os.RemoteException;
 import android.provider.Settings;
+import android.util.Log;
 
 public class SwitchManager {
     private static final String TAG = "SwitchManager";
     private static final boolean DEBUG = false;
     private List<TaskDescription> mLoadedTasks;
     private SwitchLayout mLayout;
+    private SwitchGestureView mGestureView;
     private Context mContext;
+    private SwitchConfiguration mConfiguration;
 
     public SwitchManager(Context context) {
         mContext = context;
+        mConfiguration = SwitchConfiguration.getInstance(mContext);
         init();
     }
 
@@ -56,6 +55,8 @@ public class SwitchManager {
             if(DEBUG){
                 Log.d(TAG, "hide");
             }
+            RecentTasksLoader.getInstance(mContext).cancelLoadingTasks();
+            mLayout.setHandleRecentsUpdate(false);
             mLayout.hide();
         }
     }
@@ -65,6 +66,7 @@ public class SwitchManager {
             if(DEBUG){
                 Log.d(TAG, "show");
             }
+            mLayout.setHandleRecentsUpdate(true);
             // update task list
             reload();
 
@@ -86,10 +88,22 @@ public class SwitchManager {
 
         mLayout = new SwitchLayout(mContext);
         mLayout.setRecentsManager(this);
+
+        mGestureView = new SwitchGestureView(mContext);
+        mGestureView.setRecentsManager(this);
     }
 
     public void killManager() {
         RecentTasksLoader.killInstance();
+        mGestureView.hide();
+    }
+
+    public SwitchLayout getLayout() {
+        return mLayout;
+    }
+
+    public SwitchGestureView getSwitchGestureView() {
+        return mGestureView;
     }
 
     public void update(List<TaskDescription> taskList) {
@@ -98,7 +112,12 @@ public class SwitchManager {
         }
         mLoadedTasks.clear();
         mLoadedTasks.addAll(taskList);
-        mLayout.update(mLoadedTasks);
+        if(mLayout.isHandleRecentsUpdate()){
+            mLayout.update(mLoadedTasks);
+        }
+        if(mGestureView.isHandleRecentsUpdate()){
+            mGestureView.update(mLoadedTasks);
+        }
     }
 
     public void reload() {
@@ -120,21 +139,15 @@ public class SwitchManager {
             close();
         }
 
-        Intent intent = ad.getIntent();
-        boolean floating = (intent.getFlags() & Intent.FLAG_FLOATING_WINDOW) == Intent.FLAG_FLOATING_WINDOW;
-        if (ad.getTaskId() >= 0 && !floating) {
+        if (ad.getTaskId() >= 0) {
             // This is an active task; it should just go to the foreground.
             am.moveTaskToFront(ad.getTaskId(),
                     ActivityManager.MOVE_TASK_WITH_HOME);
         } else {
-            if (!floating) {
-                intent.addFlags(Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY
-                       | Intent.FLAG_ACTIVITY_TASK_ON_HOME
-                       | Intent.FLAG_ACTIVITY_NEW_TASK);
-            } else {
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-                       | Intent.FLAG_FLOATING_WINDOW);
-            }
+            Intent intent = ad.getIntent();
+            intent.addFlags(Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY
+                    | Intent.FLAG_ACTIVITY_TASK_ON_HOME
+                    | Intent.FLAG_ACTIVITY_NEW_TASK);
             if (DEBUG)
                 Log.v(TAG, "Starting activity " + intent);
             try {
@@ -146,28 +159,10 @@ public class SwitchManager {
         }
     }
 
-    public void floatingTask(TaskDescription ad) {
-        if (ad.isKilled()) {
+    public void killTask(TaskDescription ad) {
+        if (mConfiguration.mRestrictedMode){
             return;
         }
-
-        close();
-
-        Intent intent = ad.getIntent();
-        intent.setFlags(Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY
-                    | Intent.FLAG_ACTIVITY_NEW_TASK
-                    | Intent.FLAG_FLOATING_WINDOW);
-        if (DEBUG)
-                Log.v(TAG, "Starting activity " + intent);
-        try {
-             mContext.startActivity(intent);
-        } catch (SecurityException e) {
-             Log.e(TAG, "Recents does not have the permission to launch "
-                     + intent, e);
-        }
-    }
-
-    public void killTask(TaskDescription ad) {
         final ActivityManager am = (ActivityManager) mContext
                 .getSystemService(Context.ACTIVITY_SERVICE);
 
@@ -182,6 +177,9 @@ public class SwitchManager {
     }
 
     public void killAll(boolean close) {
+        if (mConfiguration.mRestrictedMode){
+            return;
+        }
         final ActivityManager am = (ActivityManager) mContext
                 .getSystemService(Context.ACTIVITY_SERVICE);
 
@@ -206,6 +204,9 @@ public class SwitchManager {
     }
 
     public void killOther(boolean close) {
+        if (mConfiguration.mRestrictedMode){
+            return;
+        }
         final ActivityManager am = (ActivityManager) mContext
                 .getSystemService(Context.ACTIVITY_SERVICE);
 
@@ -232,6 +233,34 @@ public class SwitchManager {
         }
     }
 
+    public void killCurrent(boolean close) {
+        if (mConfiguration.mRestrictedMode){
+            return;
+        }
+        final ActivityManager am = (ActivityManager) mContext
+                .getSystemService(Context.ACTIVITY_SERVICE);
+
+        if (mLoadedTasks.size() == 0) {
+            if(close){
+                close();
+            }
+            return;
+        }
+
+        if (mLoadedTasks.size() >= 1){
+            TaskDescription ad = mLoadedTasks.get(0);
+            am.removeTask(ad.getPersistentTaskId(),
+                    ActivityManager.REMOVE_TASK_KILL_PROCESS);
+            if(DEBUG){
+                Log.d(TAG, "kill " + ad.getPackageName());
+            }
+            ad.setKilled();
+        }
+        if(close){
+            close();
+        }
+    }
+
     public void goHome(boolean close) {
         if(close){
             close();
@@ -246,6 +275,7 @@ public class SwitchManager {
 
     public void updatePrefs(SharedPreferences prefs, String key) {
         mLayout.updatePrefs(prefs, key);
+        mGestureView.updatePrefs(prefs, key);
     }
 
     public void toggleLastApp(boolean close) {
@@ -260,7 +290,11 @@ public class SwitchManager {
         switchTask(ad, close);
     }
     
-    public void startIntentFromtString(String intent) {
+    public void startIntentFromtString(String intent, boolean close) {
+        if(close){
+            close();
+        }
+
         try {
             Intent intentapp = Intent.parseUri(intent, 0);
             mContext.startActivity(intentapp);
@@ -272,7 +306,12 @@ public class SwitchManager {
     }
     
     public void updateLayout() {
-        mLayout.updateLayout();
+        if (mLayout.isShowing()){
+            mLayout.updateLayout();
+        }
+        if (mGestureView.isShowing()){
+            mGestureView.updateLayout();
+        }
     }
 
     public void close(){
@@ -309,5 +348,9 @@ public class SwitchManager {
         mainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
         mContext.startActivity(mainActivity);
+    }
+
+    public void shutdownService() {
+        mLayout.shutdownService();
     }
 }

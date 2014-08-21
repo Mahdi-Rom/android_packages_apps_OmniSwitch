@@ -18,11 +18,10 @@
 package org.omnirom.omniswitch;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.omnirom.omniswitch.ui.BitmapCache;
+import org.omnirom.omniswitch.ui.BitmapUtils;
+import org.omnirom.omniswitch.ui.ColorDrawableWithDimensions;
 import org.omnirom.omniswitch.ui.IconPackHelper;
 
 import android.app.ActivityManager;
@@ -33,6 +32,9 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -46,21 +48,21 @@ public class RecentTasksLoader {
     private static final int DISPLAY_TASKS = 20;
     private static final int MAX_TASKS = DISPLAY_TASKS + 1; // allow extra for
                                                             // non-apps
-
     private Context mContext;
     private AsyncTask<Void, List<TaskDescription>, Void> mTaskLoader;
     private Handler mHandler;
     private List<TaskDescription> mLoadedTasks;
     private boolean mPreloaded;
     private SwitchManager mSwitchManager;
+    private ActivityManager mActivityManager;
+    private Drawable mDefaultThumbnailBackground;
+    private PreloadTaskRunnable mPreloadTasksRunnable;
 
     private enum State {
         LOADING, IDLE
     };
 
     private State mState = State.IDLE;
-
-    private SwitchConfiguration mConfiguration;
 
     private static RecentTasksLoader sInstance;
 
@@ -79,7 +81,16 @@ public class RecentTasksLoader {
         mContext = context;
         mHandler = new Handler();
         mLoadedTasks = new ArrayList<TaskDescription>();
-        mConfiguration = SwitchConfiguration.getInstance(mContext);
+        mActivityManager = (ActivityManager)
+                mContext.getSystemService(Context.ACTIVITY_SERVICE);
+
+        // Render the default thumbnail background
+        int thumbnailWidth = (int) context.getResources().getDimensionPixelSize(
+                R.dimen.thumbnail_width);
+        int thumbnailHeight = (int) context.getResources()
+                .getDimensionPixelSize(R.dimen.thumbnail_height);
+        mDefaultThumbnailBackground = new ColorDrawableWithDimensions(
+                Color.BLACK, thumbnailWidth, thumbnailHeight);
     }
 
     public List<TaskDescription> getLoadedTasks() {
@@ -106,6 +117,8 @@ public class RecentTasksLoader {
     TaskDescription createTaskDescription(int taskId, int persistentTaskId,
             Intent baseIntent, ComponentName origActivity,
             CharSequence description) {
+        // clear source bounds to find matching package intent
+        baseIntent.setSourceBounds(null);
         Intent intent = new Intent(baseIntent);
         if (origActivity != null) {
             intent.setComponent(origActivity);
@@ -137,25 +150,32 @@ public class RecentTasksLoader {
         return null;
     }
 
-    Runnable mPreloadTasksRunnable = new Runnable() {
+    private class PreloadTaskRunnable implements Runnable {
+        @Override
         public void run() {
+            if (DEBUG){
+                Log.d(TAG, "preload start " + System.currentTimeMillis());
+            }
             loadTasksInBackground(null);
         }
-    };
+    }
 
     public void preloadTasks() {
+        mPreloadTasksRunnable = new PreloadTaskRunnable();
         mHandler.post(mPreloadTasksRunnable);
     }
 
-    public void cancelPreloadingTasks() {
-        cancelLoadingTasks();
-        mHandler.removeCallbacks(mPreloadTasksRunnable);
-    }
-
     public void cancelLoadingTasks() {
+        if (DEBUG){
+            Log.d(TAG, "cancelLoadingTasks state = " + mState);
+        }
         if (mTaskLoader != null) {
             mTaskLoader.cancel(false);
             mTaskLoader = null;
+        }
+        if (mPreloadTasksRunnable != null) {
+            mHandler.removeCallbacks(mPreloadTasksRunnable);
+            mPreloadTasksRunnable = null;
         }
         mLoadedTasks.clear();
         mPreloaded = false;
@@ -170,7 +190,7 @@ public class RecentTasksLoader {
 
         if(mPreloaded && mSwitchManager != null){
             if (DEBUG){
-                Log.d(TAG, "recents preloaded");
+                Log.d(TAG, "recents preloaded " + mLoadedTasks);
             }
             mSwitchManager.update(mLoadedTasks);
             mPreloaded = false;
@@ -178,6 +198,9 @@ public class RecentTasksLoader {
         }
 
         if (mState != State.IDLE) {
+            if (DEBUG){
+                Log.d(TAG, "waiting for done");
+            }
             return;
         }
         if (DEBUG){
@@ -191,8 +214,6 @@ public class RecentTasksLoader {
             protected void onProgressUpdate(
                     List<TaskDescription>... values) {
                 if (!isCancelled()) {
-                    List<TaskDescription> newTasks = values[0];
-                    mLoadedTasks.addAll(newTasks);
                     if (mSwitchManager != null){
                         if (DEBUG){
                             Log.d(TAG, "recents loaded");
@@ -209,18 +230,14 @@ public class RecentTasksLoader {
                 final int origPri = Process.getThreadPriority(Process.myTid());
                 Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
                 final PackageManager pm = mContext.getPackageManager();
-                final ActivityManager am = (ActivityManager) mContext
-                        .getSystemService(Context.ACTIVITY_SERVICE);
 
-                final List<ActivityManager.RecentTaskInfo> recentTasks = am
+                final List<ActivityManager.RecentTaskInfo> recentTasks = mActivityManager
                         .getRecentTasks(MAX_TASKS,
                                 ActivityManager.RECENT_IGNORE_UNAVAILABLE);
                 int numTasks = recentTasks.size();
                 ActivityInfo homeInfo = new Intent(Intent.ACTION_MAIN)
                         .addCategory(Intent.CATEGORY_HOME).resolveActivityInfo(
                                 pm, 0);
-
-                List<TaskDescription> tasks = new ArrayList<TaskDescription>();
 
                 for (int i = 0; i < numTasks; ++i) {
                     if (isCancelled()) {
@@ -250,13 +267,14 @@ public class RecentTasksLoader {
                             recentInfo.origActivity, recentInfo.description);
 
                     if (item != null) {
-                        // TODO we would not need to do that if already loaded
-                        tasks.add(item);
+                        item.setInitThumb(true);
+                        item.setThumb(mDefaultThumbnailBackground);
+                        mLoadedTasks.add(item);
                         loadTaskIcon(item);
                     }
                 }
                 if (!isCancelled()) {
-                    publishProgress(tasks);
+                    publishProgress(mLoadedTasks);
                 }
                 if (DEBUG){
                     Log.d(TAG, "loadTasksInBackground end " + System.currentTimeMillis());
@@ -281,14 +299,6 @@ public class RecentTasksLoader {
         }
     }
 
-    private Drawable getFullResDefaultActivityIcon(ActivityInfo activityInfo) {
-        return getFullResIcon(mContext.getResources(), R.drawable.ic_default, activityInfo);
-    }
-
-    private Drawable getFullResIcon(Resources resources, int iconId, ActivityInfo activityInfo) {
-       return BitmapCache.getInstance(mContext).getResized(resources, activityInfo, iconId, mConfiguration);
-    }
-
     private Drawable getFullResIcon(ResolveInfo info,
             PackageManager packageManager) {
         Resources resources;
@@ -299,21 +309,60 @@ public class RecentTasksLoader {
             resources = null;
         }
         if (resources != null) {
+            int iconId = 0;
             if (IconPackHelper.getInstance(mContext).isIconPackLoaded()){
-                int iconId = IconPackHelper.getInstance(mContext).getResourceIdForActivityIcon(info.activityInfo);
+                iconId = IconPackHelper.getInstance(mContext).getResourceIdForActivityIcon(info.activityInfo);
                 if (iconId != 0) {
-                    return getFullResIcon(IconPackHelper.getInstance(mContext).getIconPackResources(), iconId, info.activityInfo);
+                    return IconPackHelper.getInstance(mContext).getIconPackResources().getDrawable(iconId);
                 }
             }
-            return getFullResIcon(resources, info.activityInfo.getIconResource(), info.activityInfo);
+            iconId = info.activityInfo.getIconResource();
+            if (iconId != 0) {
+                try {
+                    return resources.getDrawable(iconId);
+                } catch(Resources.NotFoundException e){
+                    // ignore and use default below
+                }
+            }
         }
-        return getFullResDefaultActivityIcon(info.activityInfo);
+        return BitmapUtils.getDefaultActivityIcon(mContext);
     }
 
-//    public Bitmap loadThumbnail(TaskDescription td) {
-//        final ActivityManager am = (ActivityManager)
-//                mContext.getSystemService(Context.ACTIVITY_SERVICE);
-//        final PackageManager pm = mContext.getPackageManager();
-//        return am.getTaskTopThumbnail(td.persistentTaskId);
-//    }
+    public void loadThumbnail(final TaskDescription td) {
+        Drawable d = td.getThumb();
+        if (d == null || td.isInitThumb()){
+            AsyncTask<Void, TaskDescription, Void> thumbnailLoader = new AsyncTask<Void, TaskDescription, Void>() {
+                @Override
+                protected void onProgressUpdate(TaskDescription... values) {
+                }
+                @Override
+                protected Void doInBackground(Void... params) {
+                    final int origPri = Process.getThreadPriority(Process.myTid());
+                    Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
+
+                    if (DEBUG){
+                        Log.d(TAG, "load thumb " + td);
+                    }
+
+                    td.setInitThumb(false);
+                    if (hasSystemPermission(mContext)){
+                        Bitmap b = mActivityManager.getTaskTopThumbnail(td.persistentTaskId);
+                        if (b != null) {
+                            td.setThumb(new BitmapDrawable(mContext.getResources(), b));
+                        }
+                    }
+
+                    Process.setThreadPriority(origPri);
+                    return null;
+                }
+            };
+            thumbnailLoader.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }
+    }
+
+    private boolean hasSystemPermission(Context context) {
+        int result = context
+                .checkCallingOrSelfPermission(android.Manifest.permission.READ_FRAME_BUFFER);
+        return result == android.content.pm.PackageManager.PERMISSION_GRANTED;
+    }
 }
