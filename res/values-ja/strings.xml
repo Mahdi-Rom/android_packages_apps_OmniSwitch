@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (C) 2013 The OmniROM Project
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 2 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">Omniスイッチ</string>
+    <string name="status_bar_recent_remove_item_title">停止</string>
+    <string name="package_inspect_item_title">アプリ情報</string>
+    <string name="recents_settings_title">Omniスイッチ</string>
+    <string name="start_on_boot_title">起動時に適用</string>
+    <string name="start_on_boot_summary">デバイスの起動時にOmniスイッチを有効にする</string>
+    <string name="opacity_title">不透明度</string>
+    <string name="opacity_summary">オーバーレイ表示の背景の不透明度の設定</string>
+    <string name="animate_title">アニメーション</string>
+    <string name="animate_title_summary">オーバーレイ表示時にアニメーションする</string>
+    <string name="adjust_handle_title">位置とサイズ</string>
+    <string name="sc_drag_handle_title">ドラッグハンドル</string>
+    <string name="sc_drag_handle_body">\n水平にスワイプで開く\n\nボタンをタップ又は外側をタップで閉じる\n\n長押しで迅速に開く</string>
+    <string name="sc_favorite_title">お気に入りのアプリ</string>
+    <string name="sc_favorite_body">\nお気に入りのアプリを開く</string>
+    <string name="icon_size_normal">標準</string>
+    <string name="icon_size_small">小</string>
+    <string name="icon_size_large">大</string>
+    <string name="icon_size_title">アイコンサイズ</string>
+    <string name="ok">OK</string>
+    <string name="cancel">キャンセル</string>
+    <string name="drag_handle_color_title">色</string>
+    <string name="drag_handle_color_dialog_title">色</string>
+    <string name="service_background_processes"><xliff:g id="memory">%1$s</xliff:g> 空き</string>
+    <string name="service_foreground_processes"><xliff:g id="memory">%1$s</xliff:g> 使用</string>
+    <string name="show_rambar_title">メモリー使用量を表示</string>
+    <string name="show_rambar_summary">メモリーの空きと使用量を表示する</string>
+    <string name="show_app_labels">アプリ名を表示</string>
+    <string name="show_app_labels_summary">アイコンと一緒にアプリ名も表示する</string>
+    <string name="category_overlay_title">オーバーレイ</string>
+    <string name="category_drag_handle_title">ドラッグハンドル</string>
+    <string name="category_favorite_title">お気に入り</string>
+    <string name="favorite_apps_config_title">お気に入りの管理</string>
+    <string name="favorite_apps_config_summary">お気に入りに表示するアプリを設定する</string>
+    <string name="favorite_apps_add_dialog_title">アプリを追加</string>
+    <string name="favorite_add">追加\u2026</string>
+    <string name="reset">デフォルト</string>
+    <string name="toogle_last_app_help">直前のアプリに切り替える</string>
+    <string name="kill_all_apps_help">全てのアプリをキルする</string>
+    <string name="kill_other_apps_help">その他のアプリをキルする</string>
+    <string name="settings_help">設定</string>
+    <string name="home_help">ホーム</string>
+    <string name="toogle_last_app">直前のアプリ</string>
+    <string name="kill_all_apps">全てキル</string>
+    <string name="kill_other_apps">他をキル</string>
+    <string name="settings">設定</string>
+    <string name="home">ホーム</string>
+    <string name="buttons_title">ボタン</string>
+    <string name="buttons_summary">オーバーレイのアクションボタンを設定する</string>
+    <string name="auto_hide_handle">自動的に隠す</string>
+    <string name="auto_hide_handle_summary">オーバーレイ表示するには２回スワイプする</string>
+    <string name="no_recent_apps_title">アプリの履歴はありません</string>
+    <string name="drag_handle_opacity_title">不透明度</string>
+    <string name="drag_handle_enable_title">有効にする</string>
+    <string name="drag_handle_enable_summary">別の認証方法を使用する場合にのみ無効にしてください</string>
+    <string name="allapps_help">アプリドロワー</string>
+    <string name="allapps">アプリドロワー</string>
+    <string name="dim_behind_title">背景を暗くする</string>
+    <string name="dim_behind_summary">オーバーレイが見易いように背景を暗くする</string>
+    <string name="gravity_title">水平方向の表示位置</string>
+    <string name="gravity_center">中央</string>
+    <string name="gravity_drag">ハンドル側をドラッグ</string>
+    <string name="dialog_pick_iconpack_title">アイコンパックを使用</string>
+    <string name="default_iconpack_title">デフォルトアイコン</string>
+    <string name="icon_packs_title">アイコンパック</string>
+    <string name="no_iconpacks_summary">アイコンパックがインストールされていません</string>
+    <string name="icon_pack_title">アイコンパック</string>
+    <string name="icon_pack_summary">アプリのアイコンにアイコンパックを使用する</string>
+    <string name="category_speed_switcher_title">クイックスイッチャー</string>
+    <string name="speed_switcher_enable_summary">アクティブにするにはドラッグハンドルを長押しします</string>
+    <string name="speed_switcher_enable_title">有効にする</string>
+    <string name="back">戻る</string>
+    <string name="back_help">戻る</string>
+    <string name="kill_current">使用中のアプリをキル</string>
+    <string name="kill_current_help">使用中のアプリをキル</string>
+    <string name="speed_switch_color_summary">青-直前のアプリ　緑- お気に入り　赤-アクション</string>
+    <string name="speed_switch_color">背景色のレベル</string>
+    <string name="speed_switch_limit_summary">レベルの変更のためのエリア制限</string>
+    <string name="speed_switch_limit">レベル変更エリア</string>
+    <string name="speed_switch_button_title">ボタン</string>
+    <string name="speed_switch_button_summary">クイックスイッチャーのアクションボタンを設定する</string>
+    <string name="speed_switch_items_summary">レベルアイテムの最大数</string>
+    <string name="speed_switch_item">レベルアイテム制限</string>
+    <string name="sc_quick_switcher_title">クイックスイッチャー</string>
+    <string name="sc_quick_switcher_body">\n上下動するとレベルを切り替えることができます。\n\n左右の移動でレベルアイテムを切り替えることができます。</string>
+    <string name="sc_quick_switcher_empty_body">\nアプリ履歴又はお気に入りがありません。\n\n上下動するとレベルを切り替えることができます。\n\n左右の移動でレベルアイテムを切り替えることができます。</string>
+    <string name="immersive_mode">デスクトップの拡張</string>
+    <string name="immersive_mode_help">デスクトップ拡張モード</string>
+    <string name="package_add_favorite_title">お気に入りに追加</string>
+    <string name="package_remove_favorite_title">お気に入りから削除</string>
+    <string name="flat_style_summary">オーバーレイを塗りつぶす</string>
+    <string name="flat_style_title">フラットスタイル</string>
+</resources>
